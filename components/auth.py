@@ -4,7 +4,7 @@ import re  # Para trabajar con expresiones regulares
 
 def is_valid_email(email):
     """Verifica si el email tiene un formato válido."""
-    email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    email_regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$"
     return re.match(email_regex, email) is not None
 
 def login():
