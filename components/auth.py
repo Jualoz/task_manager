@@ -1,5 +1,11 @@
 import streamlit as st
 from db import SessionLocal, db_functions
+import re  # Para trabajar con expresiones regulares
+
+def is_valid_email(email):
+    """Verifica si el email tiene un formato válido."""
+    email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    return re.match(email_regex, email) is not None
 
 def login():
     option = st.radio("Choose an action:", ["Create", "Login"])
@@ -13,9 +19,15 @@ def login():
             submit_button = st.form_submit_button('Create')
 
             if submit_button:
-                # Verificar si algún campo está vacío
+                # Validar que los campos no estén vacíos
                 if not username_input or not email_input or not password_input:
                     st.error("All fields are required.")
+                # Validar rango de longitud para el username
+                elif len(username_input) < 3 or len(username_input) > 15:
+                    st.error("Username must be between 3 and 15 characters long.")
+                # Validar formato del email
+                elif not is_valid_email(email_input):
+                    st.error("Please enter a valid email address.")
                 else:
                     db = SessionLocal()
                     result = db_functions.create_user(db, username_input, email_input, password_input)
