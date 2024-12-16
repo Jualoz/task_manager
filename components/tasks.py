@@ -138,11 +138,11 @@ def import_tasks_from_json():
                         # Crear una nueva tarea en la base de datos
                         db_functions.create_task(db, st.session_state.user_id, title=title, description=description, completed=completed)
                     
+                    st.session_state.processed_files.append(uploaded_file.name)
                     st.success(f"Tasks from '{uploaded_file.name}' imported successfully!")
 
-                    # Marcar el archivo como procesado
-                    st.session_state.processed_files.append(uploaded_file.name)
-                    st.rerun()
+                # Marcar el archivo como procesado
+                st.rerun()
             except Exception as e:
                 st.error(f"Error processing file '{uploaded_file.name}': {str(e)}")
         else:
